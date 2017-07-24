@@ -6,14 +6,15 @@ sys.setdefaultencoding('utf-8')
 
 import re
 
+root_node = []
 
 class Node:
-
-    children=[]
 
     def __init__(self,path,prefix):
         self.path = path
         self.prefix = prefix
+        self.children=[]
+
     def add_child(self,node):
         self.children.append(node)
 
@@ -24,6 +25,8 @@ class Node:
             for i  in self.children:
                 i.print_node()
 
+
+# x一些正则样式
 class RegexPatterns:
     hash_pattern1 = "[\dabcdef]{6,}"
     hash_pattern2 = "[\dABCDEF]{6,}"
@@ -37,6 +40,25 @@ class RegexPatterns:
 """
 def load_file(filename):
     return open(filename).readlines()
+
+
+"""
+解析每一行数据,生成节点
+"""
+def parse_line(line):
+    host,path,num = line.split('\t')
+    current_level = root_node
+    split_list = [host].extend(path.split('/'))
+    for node_name in range(len(split_list)):
+        # 在本层中寻找是否存在本层的节点
+        existed = False
+        for node in current_level.children:
+            if node.path == node_name:
+                current_level = node
+                existed = True
+
+
+
 
 
 

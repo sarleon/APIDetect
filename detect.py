@@ -56,6 +56,12 @@ def parse_line(line):
             if node.path == node_name:
                 current_level = node
                 existed = True
+                break
+
+        if not existed:
+            new_node = Node(node_name,current_level.path)
+            current_level = new_node
+
 
 
 
@@ -78,4 +84,9 @@ def remove_static_resource(lines):
 
 if __name__ == '__main__':
     lines = load_file('test.txt')
-    remove_static_resource(lines)
+
+    for line in lines:
+        parse_line(line)
+
+    for i in root_node:
+        i.print_node()
